@@ -1,10 +1,12 @@
 ﻿using AcademyF_Leonardo_Sanna_MVC.Core.Business;
 using AcademyF_Leonardo_Sanna_MVC.MVC.Helper;
 using AcademyF_Leonardo_Sanna_MVC.MVC.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AcademyF_Leonardo_Sanna_MVC.MVC.Controllers
 {
+    [Authorize]
     public class PiattiController : Controller
     {
         private readonly IBusinessLayer BL;
@@ -102,6 +104,39 @@ namespace AcademyF_Leonardo_Sanna_MVC.MVC.Controllers
             return View(piattovm);
         }
 
+        public IActionResult DisassegnaPiatto(int id)
+        {
+            var piatto = BL.GetPiatto(id);
+            var corsoVM = piatto.ToPiattoVM();
+            return View(corsoVM);
+        }
 
+        [HttpPost]
+        public IActionResult DisassegnaPiatto(PiattoViewModel piattovm)
+        {
+            var piatto = BL.GetPiatto(piattovm.Id);
+            piatto.MenuId = null;
+            piatto.Menu = null;
+            BL.UpdatePiatto(piatto);
+            return View();
+        }
+
+        public IActionResult AssegnaPiatto(int id)
+        {
+            var piatto = BL.GetPiatto(id);
+            var corsoVM = piatto.ToPiattoVM();
+            ViewBag.Menu = BL.GetAllMenu();
+            return View(corsoVM);
+        }
+
+        [HttpPost]
+        public IActionResult AssegnaPiatto(PiattoViewModel piattovm)
+        {
+            var piatto = BL.GetPiatto(piattovm.Id);
+            piatto.MenuId = piattovm.MenuId;
+            piatto.Menu = BL.GetAllMenu().Find(m=>m.id==piattovm.Id);
+            BL.UpdatePiatto(piatto);
+            return View("Piatti/Index");
+        }
     }
 }

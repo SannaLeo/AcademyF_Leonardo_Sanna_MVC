@@ -35,6 +35,14 @@
                     {
                         <a asp-controller="Piatti" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Elimina</a>
                     }
+                    @if (User.IsInRole("Administrator") && item.PresenteMenu()=="No")
+                    {
+                        <a asp-controller="Piatti" asp-action="AssegnaPiatto" asp-route-id="@item.Id" class="btn btn-danger">Assegna ad un menu</a>
+                    }
+                    @if (User.IsInRole("Administrator") && item.PresenteMenu()=="Sì")
+                    {
+                        <a asp-controller="Piatti" asp-action="DisassegnaPiatto" asp-route-id="@item.Id" class="btn btn-danger">Togli dal menu</a>
+                    }
                 </td>
             </tr>
         }

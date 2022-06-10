@@ -66,7 +66,6 @@ namespace AcademyF_Leonardo_Sanna_MVC.MVC.Helper
                 Piatti = piatti,
             };
         }
-
         public static Piatto ToPiatto(this PiattoViewModel piatto)
         {
             if (piatto == null)

@@ -1,5 +1,8 @@
-﻿namespace AcademyF_Leonardo_Sanna_MVC.MVC.Models
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace AcademyF_Leonardo_Sanna_MVC.MVC.Models
 {
+    
     public class MenuViewModel
     {
         public int Id { get; set; }

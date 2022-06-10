@@ -1,5 +1,6 @@
 ﻿using AcademyF_Leonardo_Sanna_MVC.Core;
 using AcademyF_Leonardo_Sanna_MVC.Core.InterfacesRepos;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +61,7 @@ namespace AcademyF_Leonardo_Sanna_MVC.RepositoryEF
             using(var ctx = new MasterContext())
             {
                 ctx.Database.EnsureCreated();
-                return ctx.Menu.ToList();
+                return ctx.Menu.Include(m=>m.Piatti).ThenInclude(p=>p.Menu).ToList();
             }
             return new List<Menu>();
         }
