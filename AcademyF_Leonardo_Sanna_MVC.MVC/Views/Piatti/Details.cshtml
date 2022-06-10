@@ -1,0 +1,48 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model PiattoViewModel
+<table class="table table-hover table-bordered table-striped">
+ <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Tipologia</th>
+            <th>Prezzo</th>
+            <th>Descrizione</th>
+            <th>Presente nei menù</th>
+            @if (User.IsInRole("Administrator") && Model.PresenteMenu()=="Sì")
+            {
+                <th></th>
+            }
+        </tr>
+    </thead> 
+ <tr>
+    <td>@Model.Nome</td>
+    <td>@Model.Tipologia</td>
+    <td>@Model.Prezzo</td>
+    <td>@Model.Descrizione</td>
+    <td>@Model.PresenteMenu()</td>
+    
+    @if (Model.PresenteMenu() == "Sì")
+    {    
+        <td> 
+        <a asp-controller="Menu" asp-action="Details" asp-route-id="@Model.MenuId" class="btn btn-primary">Visualizza dettagli menu</a>
+        </td>
+    }
+    @if (User.IsInRole("Administrator"))
+    {
+         <td> 
+        <a asp-controller="Corsi" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Modifica</a>
+        </td>
+    }
+    @if (User.IsInRole("Administrator"))
+    {
+         <td> 
+        <a asp-controller="Corsi" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Elimina</a>
+        </td>
+    }
+</tr>
+            </table>
